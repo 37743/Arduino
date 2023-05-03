@@ -1,22 +1,24 @@
 // YOUSEF IBRAHIM GOMAA MAHMOUD - 320210207 - SECTION 10
 // ------------------------------
 // Ultrasonic Sensor
-const int Analog = A0;
-const int Digital = 6;
+const int ECHO = A0;
+const int TRIG = 6;
 // LEDs
 const int LEDpin1 = 2; // GREEN
 const int LEDpin2 = 3; // RED
-const int BUZZ = 4; // BUZZER
+const int LEDpin3 = 4;
+const int BUZZ = 5; // BUZZER
 
 void setup() {
-  pinMode(Digital, OUTPUT);
-  pinMode(Analog, INPUT);
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
   Serial.begin(9600);
 }
 
 void loop() {
   digitalWrite(LEDpin1,LOW);
   digitalWrite(LEDpin2,LOW);
+  digitalWrite(LEDpin3,LOW);
   digitalWrite(BUZZ,LOW);
   // INPUT DATA
   digitalWrite(TRIG,LOW);
