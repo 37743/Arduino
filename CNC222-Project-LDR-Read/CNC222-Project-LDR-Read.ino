@@ -18,7 +18,7 @@ String MORSEnum[] = {"-----",".----","..---","...--","....-",".....","-....","--
 void setup() {
   pinMode(LDRpin1, INPUT);
   pinMode(LDRpin2, INPUT);   
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {
@@ -26,16 +26,33 @@ void loop() {
   {
     LDRreading1 = analogRead(LDRpin1);
     LDRreading2 = analogRead(LDRpin2);
-    delay(500);
-    if (LDRreading2 < 50)
+    // Serial.println(LDRreading1);
+    // Serial.println(LDRreading2);
+    delay(50);
+    if (LDRreading2 < 35)
     {
-      if (LDRreading1 >= 50)
+      if (LDRreading1 >= 30)
       {
-        delay(1610);
+        delay(850);
         LDRreading1 = analogRead(LDRpin1);
-        if (LDRreading1 >= 50) {MORSEout += '-'; Serial.print("LDR Reading: "); Serial.print(LDRreading1); Serial.print(" | INPUT: -\n"); delay(800);}
-        else if (LDRreading1<50) {MORSEout += '.'; Serial.print("LDR Reading: "); Serial.print(LDRreading1); Serial.print(" | INPUT: .\n");}
-        SPCcount = 0;
+        if (LDRreading1 < 30)
+        {
+          MORSEout += '.';
+          Serial.print("LDR Reading: ");
+          Serial.print(LDRreading1);
+          Serial.print(" | INPUT: .\n");
+          SPCcount = 0;
+          continue;
+        }
+        if (LDRreading1 >= 30)
+        {
+          MORSEout += '-';
+          Serial.print("LDR Reading: ");
+          Serial.print(LDRreading1);
+          Serial.print(" | INPUT: -\n");
+          SPCcount = 0;
+        }
+        delay(750);
       }
     }
     else
@@ -45,7 +62,7 @@ void loop() {
       Serial.print("SPC LDR Reading: ");
       Serial.print(LDRreading2);
       Serial.print(" | INPUT: (SPACE)\n");
-      delay(800);
+      delay(850);
       if (SPCcount>2) break; // Break after 3 spaces (LEDs stop blinking)
     }
   }

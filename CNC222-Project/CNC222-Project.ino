@@ -1,7 +1,8 @@
 // Yousef Ibrahim Gomaa Mahmoud - ID: 320210207
-// ------------------
+// ------------------ 
 #include <Keypad.h>
-
+#include <avr/io.h>
+#define __AVR_ATmega32U4__
 // INITIALIZATION
 // ------------------
 const int LEDpin = 12;
@@ -21,14 +22,22 @@ char keys[4][3] = {
   {'*','0','#'}
 };
 
+extern "C" unsigned char LEDSetUP(unsigned char);
+extern "C" void LEDon(void);
+extern "C" void LEDoff(void);
+extern "C" void SPCLEDon(void);
+extern "C" void SPCLEDoff(void);
+
 // Attached ROWS/COL to Arduino UNO's pins no. #
 byte pin_rows[4] = {10, 9, 8, 7};
 byte pin_cols[3] = {6, 5, 4};
 
 void setup() {
-  pinMode(LEDpin, OUTPUT);
-  pinMode(SPCpin, OUTPUT);
-  Serial.begin(9600);
+  // pinMode(LEDpin, OUTPUT);
+  // pinMode(SPCpin, OUTPUT);
+  Serial.begin(115200);
+  LEDSetUP(5);
+  LEDSetUP(6);
   Keypad keypad = Keypad( makeKeymap(keys), pin_rows, pin_cols, 4, 3);
   char KEY;
   int MAX = 0; // Max no. of key inputs at a time
@@ -49,8 +58,8 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(LEDpin, LOW);
-  digitalWrite(SPCpin, LOW);
+  LEDoff();
+  SPCLEDoff();
   for (int i=0; i<INP.length(); i++)
   {
     MORSEinp.concat(MORSEnum[(int)INP[i]-(int)'0']);
@@ -58,34 +67,34 @@ void loop() {
   }  
   for (int j=0; j<MORSEinp.length(); j++)
   {
-    delay(500);
+    delay(800);
     if (MORSEinp[j]==' ')
     {
-      digitalWrite(SPCpin, HIGH);
+      SPCLEDon();
       delay(800);
-      digitalWrite(SPCpin, LOW);
+      SPCLEDoff();
     }
     else if(MORSEinp[j]=='.')
     {
-      digitalWrite(LEDpin, HIGH);
-      delay(1600);
-      digitalWrite(LEDpin, LOW);                  
+      LEDon();
+      delay(800);
+      LEDoff();                  
     }
     else if(MORSEinp[j]=='-')
     {
-      digitalWrite(LEDpin, HIGH);
-      delay(2400);
-      digitalWrite(LEDpin, LOW);
+      LEDon();
+      delay(1600);
+      LEDoff();
     }
     Serial.print(MORSEinp[j]);
   };
   Serial.print("END\n");
-  for (int i=0; i<2; i++) // Blink SPACE LED to indicate end of sequence
+  for (int i=0; i<3; i++) // Blink SPACE LED to indicate end of sequence
   {
-    digitalWrite(SPCpin, HIGH);
-    delay(800);
-    digitalWrite(SPCpin, LOW);
-    delay(800);
+    SPCLEDon();
+    delay(400);
+    SPCLEDoff();
+    delay(400);
   }
-  while (true) delay(5000);
+  while(true) delay(5000);
 }
