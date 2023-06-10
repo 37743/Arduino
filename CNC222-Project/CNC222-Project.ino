@@ -2,12 +2,13 @@
 // ------------------ 
 #include <Keypad.h>
 #include <avr/io.h>
+#include <Servo.h>
 #define __AVR_ATmega32U4__
 // INITIALIZATION
 // ------------------
 const int LEDpin = 12;
 const int SPCpin = 13;
-
+Servo servo;
 String INP = "";
 String MORSEinp = "";
 // ---------------------v-------v-------v-------v-------v-------v-------v-------v-------v-------v

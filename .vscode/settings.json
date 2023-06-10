@@ -3,6 +3,5 @@
         "*.ino": "cpp",
         "*.s": "c",
         "*.S": "assembler",
-        "keypad.h": "c"
     }
 }

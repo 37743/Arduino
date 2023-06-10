@@ -2,5 +2,5 @@
     "board": "arduino:avr:uno",
     "programmer": "arduinoasisp",
     "port": "COM9",
-    "sketch": "CNC222-Project-LDR-Read\\CNC222-Project-LDR-Read.ino"
+    "sketch": "CNC222-Project\\CNC222-Project.ino"
 }
